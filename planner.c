@@ -205,10 +205,10 @@ static void calculate_trapezoid_for_block(block_t *block, float entry_factor, fl
   block->initial_rate = ceil(block->nominal_rate*entry_factor); // (step/min)
   block->final_rate = ceil(block->nominal_rate*exit_factor); // (step/min)
   int32_t acceleration_per_minute = block->rate_delta*ACCELERATION_TICKS_PER_SECOND*60.0; // (step/min^2)
-  int32_t accelerate_steps = 
-    ceil(estimate_acceleration_distance(block->initial_rate, block->nominal_rate, acceleration_per_minute));
-  int32_t decelerate_steps = 
-    floor(estimate_acceleration_distance(block->nominal_rate, block->final_rate, -acceleration_per_minute));
+	int32_t accelerate_steps = ceil(estimate_acceleration_distance(block->initial_rate,
+									block->nominal_rate, acceleration_per_minute));
+	int32_t decelerate_steps = floor(estimate_acceleration_distance(block->nominal_rate,
+  									block->final_rate, -acceleration_per_minute));
     
   // Calculate the size of Plateau of Nominal Rate. 
   int32_t plateau_steps = block->step_event_count-accelerate_steps-decelerate_steps;
@@ -217,8 +217,8 @@ static void calculate_trapezoid_for_block(block_t *block, float entry_factor, fl
   // have to use intersection_distance() to calculate when to abort acceleration and start braking 
   // in order to reach the final_rate exactly at the end of this block.
   if (plateau_steps < 0) {  
-    accelerate_steps = ceil(
-      intersection_distance(block->initial_rate, block->final_rate, acceleration_per_minute, block->step_event_count));
+		accelerate_steps = ceil(intersection_distance(block->initial_rate,
+								block->final_rate, acceleration_per_minute, block->step_event_count));
     accelerate_steps = max(accelerate_steps,0); // Check limits due to numerical round-off
     accelerate_steps = min(accelerate_steps,block->step_event_count);
     plateau_steps = 0;
@@ -262,8 +262,7 @@ static void planner_recalculate_trapezoids()
     block_index = next_block_index( block_index );
   }
   // Last/newest block in buffer. Exit speed is set with MINIMUM_PLANNER_SPEED. Always recalculated.
-  calculate_trapezoid_for_block(next, next->entry_speed/next->nominal_speed,
-    MINIMUM_PLANNER_SPEED/next->nominal_speed);
+	calculate_trapezoid_for_block(next, next->entry_speed/next->nominal_speed, MINIMUM_PLANNER_SPEED/next->nominal_speed);
   next->recalculate_flag = false;
 }
 
@@ -429,7 +428,7 @@ void plan_buffer_line(float x, float y, float z, float feed_rate, uint8_t invert
     // NOTE: Max junction velocity is computed without sin() or acos() by trig half angle identity.
     float cos_theta = - pl.previous_unit_vec[X_AXIS] * unit_vec[X_AXIS] 
                        - pl.previous_unit_vec[Y_AXIS] * unit_vec[Y_AXIS] 
-                       - pl.previous_unit_vec[Z_AXIS] * unit_vec[Z_AXIS] ;
+							- pl.previous_unit_vec[Z_AXIS] * unit_vec[Z_AXIS];
                          
     // Skip and use default max junction speed for 0 degree acute junction.
     if (cos_theta < 0.95) {

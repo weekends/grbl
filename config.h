@@ -25,37 +25,38 @@
 // IMPORTANT: Any changes here requires a full re-compiling of the source code to propagate them.
 
 // Default settings. Used when resetting EEPROM. Change to desired name in defaults.h
-#define DEFAULTS_GENERIC
+// #define DEFAULTS_GENERIC
+#define DEFAULTS_SHERLINE_5400
 
 // Serial baud rate
-#define BAUD_RATE 9600
+#define BAUD 9600
 
 // Define pin-assignments
 // NOTE: All step bit and direction pins must be on the same port.
-#define STEPPING_DDR       DDRD
-#define STEPPING_PORT      PORTD
-#define X_STEP_BIT         2  // Uno Digital Pin 2
-#define Y_STEP_BIT         3  // Uno Digital Pin 3
-#define Z_STEP_BIT         4  // Uno Digital Pin 4
-#define X_DIRECTION_BIT    5  // Uno Digital Pin 5
-#define Y_DIRECTION_BIT    6  // Uno Digital Pin 6
-#define Z_DIRECTION_BIT    7  // Uno Digital Pin 7
+#define STEPPING_DDR		DDRF
+#define STEPPING_PORT		PORTF
+#define X_STEP_BIT			0  // Uno Digital Pin 2
+#define Y_STEP_BIT			1  // Uno Digital Pin 3
+#define Z_STEP_BIT			2  // Uno Digital Pin 4
+#define X_DIRECTION_BIT		3  // Uno Digital Pin 5
+#define Y_DIRECTION_BIT		4  // Uno Digital Pin 6
+#define Z_DIRECTION_BIT		5  // Uno Digital Pin 7
 #define STEP_MASK ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)) // All step bits
 #define DIRECTION_MASK ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)) // All direction bits
 #define STEPPING_MASK (STEP_MASK | DIRECTION_MASK) // All stepping-related bits (step/direction)
 
-#define STEPPERS_DISABLE_DDR    DDRB
-#define STEPPERS_DISABLE_PORT   PORTB
+#define STEPPERS_DISABLE_DDR	DDRL
+#define STEPPERS_DISABLE_PORT	PORTL
 #define STEPPERS_DISABLE_BIT    0  // Uno Digital Pin 8
 #define STEPPERS_DISABLE_MASK (1<<STEPPERS_DISABLE_BIT)
 
 // NOTE: All limit bit pins must be on the same port
-#define LIMIT_DDR       DDRB
-#define LIMIT_PIN       PINB
-#define LIMIT_PORT      PORTB
-#define X_LIMIT_BIT     1  // Uno Digital Pin 9
-#define Y_LIMIT_BIT     2  // Uno Digital Pin 10
-#define Z_LIMIT_BIT     3  // Uno Digital Pin 11
+#define LIMIT_DDR		DDRC
+#define LIMIT_PIN		PINC
+#define LIMIT_PORT		PORTC
+#define X_LIMIT_BIT		7  // Uno Digital Pin 9
+#define Y_LIMIT_BIT		6  // Uno Digital Pin 10
+#define Z_LIMIT_BIT		5  // Uno Digital Pin 11
 #define LIMIT_INT       PCIE0  // Pin change interrupt enable pin
 #define LIMIT_INT_vect  PCINT0_vect 
 #define LIMIT_PCMSK     PCMSK0 // Pin change interrupt register
@@ -69,9 +70,9 @@
 #define SPINDLE_DIRECTION_PORT  PORTB
 #define SPINDLE_DIRECTION_BIT   5  // Uno Digital Pin 13 (NOTE: D13 can't be pulled-high input due to LED.)
 
-#define COOLANT_FLOOD_DDR   DDRC
-#define COOLANT_FLOOD_PORT  PORTC
-#define COOLANT_FLOOD_BIT   3  // Uno Analog Pin 3
+#define COOLANT_FLOOD_DDR	DDRD
+#define COOLANT_FLOOD_PORT	PORTD
+#define COOLANT_FLOOD_BIT	0  // Uno Analog Pin 3
 
 // NOTE: Uno analog pins 4 and 5 are reserved for an i2c interface, and may be installed at
 // a later date if flash and memory space allows.
@@ -86,8 +87,8 @@
 #define PINOUT_DDR       DDRC
 #define PINOUT_PIN       PINC
 #define PINOUT_PORT      PORTC
-#define PIN_RESET        0  // Uno Analog Pin 0
-#define PIN_FEED_HOLD    1  // Uno Analog Pin 1
+#define PIN_RESET		4  // Uno Analog Pin 0
+#define PIN_FEED_HOLD	3  // Uno Analog Pin 1
 #define PIN_CYCLE_START  2  // Uno Analog Pin 2
 #define PINOUT_INT       PCIE1  // Pin change interrupt enable pin
 #define PINOUT_INT_vect  PCINT1_vect
@@ -179,7 +180,7 @@
 // available RAM, like when re-compiling for a Teensy or Sanguino. Or decrease if the Arduino
 // begins to crash due to the lack of available RAM or if the CPU is having trouble keeping
 // up with planning new incoming motions as they are executed. 
-// #define BLOCK_BUFFER_SIZE 18  // Uncomment to override default in planner.h.
+#define BLOCK_BUFFER_SIZE 18  // Uncomment to override default in planner.h.
 
 // Line buffer size from the serial input stream to be executed. Also, governs the size of 
 // each of the startup blocks, as they are each stored as a string of this size. Make sure
@@ -189,7 +190,10 @@
 // can be too small and g-code blocks can get truncated. Officially, the g-code standards 
 // support up to 256 characters. In future versions, this default will be increased, when 
 // we know how much extra memory space we can re-invest into this.
-// #define LINE_BUFFER_SIZE 70  // Uncomment to override default in protocol.h
+#ifdef LINE_BUFFER_SIZE
+#undef LINE_BUFFER_SIZE
+#endif
+#define LINE_BUFFER_SIZE 256  // Uncomment to override default in protocol.h
   
 // Serial send and receive buffer size. The receive buffer is often used as another streaming
 // buffer to store incoming blocks to be processed by Grbl when its ready. Most streaming

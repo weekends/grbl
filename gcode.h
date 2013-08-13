@@ -60,7 +60,7 @@
 #define NON_MODAL_GO_HOME_1 5 // G30
 #define NON_MODAL_SET_HOME_1 6 // G30.1
 #define NON_MODAL_SET_COORDINATE_OFFSET 7 // G92
-#define NON_MODAL_RESET_COORDINATE_OFFSET 8 //G92.1
+#define NON_MODAL_RESET_COORDINATE_OFFSET	8 // G92.1
 
 typedef struct {
   uint8_t status_code;             // Parser status for current block

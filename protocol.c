@@ -258,9 +258,9 @@ uint8_t protocol_execute_line(char *line)
           helper_var = true;  // Set helper_var to flag storing method. 
           // No break. Continues into default: to read remaining command characters.
         }
-      default :  // Storing setting methods
-        if(!read_float(line, &char_counter, &parameter)) { return(STATUS_BAD_NUMBER_FORMAT); }
-        if(line[char_counter++] != '=') { return(STATUS_UNSUPPORTED_STATEMENT); }
+			default:  // Storing setting methods
+				if (!read_float(line, &char_counter, &parameter)) { return(STATUS_BAD_NUMBER_FORMAT); }
+				if (line[char_counter++] != '=') { return(STATUS_UNSUPPORTED_STATEMENT); }
         if (helper_var) { // Store startup line
           // Prepare sending gcode block to gcode parser by shifting all characters
           helper_var = char_counter; // Set helper variable as counter to start of gcode block
@@ -275,8 +275,8 @@ uint8_t protocol_execute_line(char *line)
             settings_store_startup_line(helper_var,line);
           }
         } else { // Store global setting.
-          if(!read_float(line, &char_counter, &value)) { return(STATUS_BAD_NUMBER_FORMAT); }
-          if(line[char_counter] != 0) { return(STATUS_UNSUPPORTED_STATEMENT); }
+				if (!read_float(line, &char_counter, &value)) { return(STATUS_BAD_NUMBER_FORMAT); }
+				if (line[char_counter] != 0) { return(STATUS_UNSUPPORTED_STATEMENT); }
           return(settings_store_global_setting(parameter, value));
         }
     }

@@ -564,12 +564,10 @@ uint8_t gc_execute_line(char *line)
 // or there was an error (check state.status_code).
 static int next_statement(char *letter, float *float_ptr, char *line, uint8_t *char_counter) 
 {
-  if (line[*char_counter] == 0) {
-    return(0); // No more statements
-  }
+	if (line[*char_counter] == 0) {return(0);} // No more statements
   
   *letter = line[*char_counter];
-  if((*letter < 'A') || (*letter > 'Z')) {
+	if ((*letter < 'A') || (*letter > 'Z')) {
     FAIL(STATUS_EXPECTED_COMMAND_LETTER);
     return(0);
   }

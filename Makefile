@@ -28,9 +28,9 @@
 #                is connected.
 # FUSES ........ Parameters for avrdude to flash the fuses appropriately.
 
-DEVICE     ?= atmega328p
-CLOCK      = 16000000
-PROGRAMMER ?= -c avrisp2 -P usb
+DEVICE     ?= atmega2560
+CLOCK      = 14745600UL
+PROGRAMMER ?= -c stk500v2 -P avrdoper
 OBJECTS    = main.o motion_control.o gcode.o spindle_control.o coolant_control.o serial.o \
              protocol.o stepper.o eeprom.o settings.o planner.o nuts_bolts.o limits.o \
              print.o report.o
