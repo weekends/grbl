@@ -38,10 +38,10 @@ static uint8_t next_buffer_head;                 // Index of the next buffer hea
 
 // Define planner variables
 typedef struct {
-  int32_t position[3];             // The planner position of the tool in absolute steps. Kept separate
-                                   // from g-code position for movements requiring multiple line motions,
-                                   // i.e. arcs, canned cycles, and backlash compensation.
-  float previous_unit_vec[3];     // Unit vector of previous path line segment
+  int32_t position[N_AXIS];       // The planner position of the tool in absolute steps. Kept separate
+                                  // from g-code position for movements requiring multiple line motions,
+                                  // i.e. arcs, canned cycles, and backlash compensation.
+  float previous_unit_vec[N_AXIS];// Unit vector of previous path line segment
   float previous_nominal_speed;   // Nominal speed of previous path line segment
 } planner_t;
 static planner_t pl;
@@ -348,7 +348,7 @@ void plan_buffer_line(float x, float y, float z, float feed_rate, uint8_t invert
   block_t *block = &block_buffer[block_buffer_head];
 
   // Calculate target position in absolute steps
-  int32_t target[3];
+  int32_t target[N_AXIS];
   target[X_AXIS] = lround(x*settings.steps_per_mm[X_AXIS]);
   target[Y_AXIS] = lround(y*settings.steps_per_mm[Y_AXIS]);
   target[Z_AXIS] = lround(z*settings.steps_per_mm[Z_AXIS]);     

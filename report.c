@@ -292,10 +292,10 @@ void report_realtime_status()
   // to be added are distance to go on block, processed block id, and feed rate. Also a settings bitmask
   // for a user to select the desired real-time data.
   uint8_t i;
-  int32_t current_position[3]; // Copy current state of the system position variable
+  int32_t current_position[N_AXIS]; // Copy current state of the system position variable
   memcpy(current_position,sys.position,sizeof(sys.position));
-  float print_position[3];
- 
+  float print_position[N_AXIS];
+
   // Report current machine state
   switch (sys.state) {
     case STATE_IDLE: printPgmString(PSTR("<Idle")); break;
@@ -310,7 +310,7 @@ void report_realtime_status()
  
   // Report machine position
   printPgmString(PSTR(",MPos:")); 
-  for (i=0; i<= 2; i++) {
+  for (i=0; i<N_AXIS; i++) {
     print_position[i] = current_position[i]/settings.steps_per_mm[i];
     if (bit_istrue(settings.flags,BITFLAG_REPORT_INCHES)) { print_position[i] *= INCH_PER_MM; }
     printFloat(print_position[i]);
@@ -319,7 +319,7 @@ void report_realtime_status()
   
   // Report work position
   printPgmString(PSTR("WPos:")); 
-  for (i=0; i<= 2; i++) {
+  for (i=0; i<N_AXIS; i++) {
     if (bit_istrue(settings.flags,BITFLAG_REPORT_INCHES)) {
       print_position[i] -= (gc.coord_system[i]+gc.coord_offset[i])*INCH_PER_MM;
     } else {
