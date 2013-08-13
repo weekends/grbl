@@ -25,6 +25,8 @@ _**Archives:**_
 * [Grbl v0.51 Atmega328p 16mhz 9600baud](http://bit.ly/W75BS1)
 * [Grbl v0.51 Atmega168 16mhz 9600baud](http://bit.ly/VXyrYu)
 
+_**Weekends/fork:**_
+* Added ATMega2560 support, tested at 14,7456 MHz.
 
 ##Changelog for v0.8 from v0.7:
   - Major structural overhaul to allow for multi-tasking events and new feature sets.
